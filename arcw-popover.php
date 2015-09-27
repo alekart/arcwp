@@ -34,6 +34,7 @@ License: GPLv3
 
 define( 'ARCWPV', '0.1.0' ); // current version of the plugin
 define( 'ARCWP_DEBUG', false ); // enable or disable debug (for dev instead of echo or print_r use debug() function)
+define( 'ARCWP_DIR', plugins_url( '/', __FILE__ ) );
 
 add_action( 'init', 'arcwp_init' );
 
@@ -43,11 +44,13 @@ function arcwp_init() {
 	}
 	wp_enqueue_script(
 		'arcwp-script',
-		plugins_url( '/arcw-popover.min.js', __FILE__ ),
+		ARCWP_DIR.'arcw-popover.min.js',
 		array( 'jquery' ),
 		ARCWPV
 	);
-	wp_register_style( 'arcwp-style', plugins_url( '/arcw-popover.css', __FILE__ ), array(), ARCWPV );
+
+
+	wp_register_style( 'arcwp-style', ARCWP_DIR.'/arcw-popover.css', array(), ARCWPV );
 	wp_enqueue_style( 'arcwp-style' );
 
 	wp_localize_script( 'arcwp-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
@@ -59,7 +62,7 @@ function arcwp_getArc() {
 	global $wpdb;
 
 	$wpurl = get_bloginfo( 'url' );
-	$url = $_POST['link'];
+	$url   = $_POST['link'];
 
 	$link    = str_replace( "$wpurl", '', $url );
 	$link    = parse_url( $link );
@@ -94,16 +97,16 @@ function arcwp_getArc() {
 
 	$posts_array = get_posts( $args );
 
-	$max = 5;
-	$posts = count($posts_array);
+	$max   = 5;
+	$posts = count( $posts_array );
 
 	echo "<ul>";
-	for ( $i = 0; $i < $posts && $i < $max; $i++) {
-		$post = $posts_array[$i];
+	for ( $i = 0; $i < $posts && $i < $max; $i ++ ) {
+		$post = $posts_array[ $i ];
 		echo '<li><a href="' . get_post_permalink( $post->ID ) . '">' . $post->post_title . '</a></li>';
 	}
-	if($posts > $max){
-		echo '<li><a class="arcwp-more" href="' . $url . '">' . __('More') . '</a></li>';
+	if ( $posts > $max ) {
+		echo '<li><a class="arcwp-more" href="' . $url . '">' . __( 'More' ) . '</a></li>';
 	}
 	echo "</ul>";
 

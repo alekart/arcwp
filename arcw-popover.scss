@@ -44,14 +44,13 @@
 			width: 30px;
 			height: 30px;
 		}
-
-		ul{
+		ul {
 			list-style: none;
 			li {
 				display: block;
 				overflow: hidden;
 				text-overflow: ellipsis;
-				height: 22px;
+
 				a {
 					display: block;
 					padding: 3px 8px;
@@ -88,6 +87,7 @@
 		transform: rotate(360deg);
 	}
 }
+
 @keyframes load8 {
 	0% {
 		-webkit-transform: rotate(0deg);
