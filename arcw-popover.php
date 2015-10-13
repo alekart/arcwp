@@ -81,7 +81,7 @@ function arcwp_get_archives_list() {
 
 	$args = array(
 		'posts_per_page'   => 0,
-		'cat'              => $post_type == 'post' ? $cat : '',
+		'cat'              => $cat,
 		'orderby'          => 'date',
 		'order'            => 'DESC',
 		'post_type'        => $post_type,
@@ -95,6 +95,18 @@ function arcwp_get_archives_list() {
 			)
 		)
 	);
+
+	if(!empty($cat)) {
+		$args['tax_query'] = array(
+			'relation' => 'AND',
+			array(
+				'taxonomy' => 'category',
+				'field'    => 'term_id',
+				'terms'    => explode(',', $cat),
+				'operator' => 'IN',
+			),
+		);
+	}
 
 	$posts_array = get_posts( $args );
 
