@@ -87,7 +87,7 @@ ArcwPopover.prototype.popover = function(elem) {
 ArcwPopover.prototype._getPosts = function (link) {
 	var self = this,
 		data = {
-			'action': 'getArcw',
+			'action': 'get_archives_list',
 			'link': link
 		};
 

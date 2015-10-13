@@ -56,9 +56,10 @@ function arcwp_init() {
 	wp_localize_script( 'arcwp-script', 'ajaxurl', admin_url( 'admin-ajax.php' ) );
 }
 
-add_action( 'wp_ajax_getArcw', 'arcwp_getArc' );
+add_action( 'wp_ajax_get_archives_list', 'arcwp_get_archives_list' );
+add_action( 'wp_ajax_nopriv_get_archives_list', 'arcwp_get_archives_list' );
 
-function arcwp_getArc() {
+function arcwp_get_archives_list() {
 	global $wpdb;
 
 	$wpurl = get_bloginfo( 'url' );
@@ -110,6 +111,6 @@ function arcwp_getArc() {
 	}
 	echo "</ul>";
 
-	wp_die();
+	die();
 }
 
