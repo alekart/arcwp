@@ -13,6 +13,8 @@ Popover Addon for Archives Calendar Widget
 
 *Shows a popover with list of links to the posts of the month/day.*
 
+Compatible with **ARCW 1.0.8**+
+
 This will not work if you don't have Archives Calendar Widget installed/activated.
 Get it here : [Archives Calendar Widget](https://wordpress.org/plugins/archives-calendar-widget/)
 

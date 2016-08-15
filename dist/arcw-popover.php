@@ -33,7 +33,7 @@ License: GPLv3
  ****/
 
 define( 'ARCWPV', '0.1.3' ); // current version of the plugin
-define( 'ARCWP_DEBUG', true ); // enable or disable debug (for dev instead of echo or print_r use debug() function)
+define( 'ARCWP_DEBUG', false ); // enable or disable debug (for dev instead of echo or print_r use debug() function)
 define( 'ARCWP_DIR', plugins_url( '/', __FILE__ ) );
 
 add_action( 'init', 'arcwp_init' );
