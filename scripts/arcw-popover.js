@@ -43,7 +43,7 @@ ArcwPopover.prototype._popover = function () {
 	var self = this;
 
 	self.calendars.each(function (index, elem) {
-		var popover = jQuery('<div class="arcw-popover"><div id="arcwp-arrow"></div><div id="arcwp-content"></div></div>'),
+		var popover = jQuery('<div class="arcw-popover"><div id="arcwp-content"></div></div>'),
 			$elem = jQuery(elem);
 		$elem.append(popover);
 		$elem.data('popover', popover);

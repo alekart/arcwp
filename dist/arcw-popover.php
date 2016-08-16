@@ -1,13 +1,13 @@
 <?php
 /**
  * @package ARCW_Popover
- * @version 0.1.0
+ * @version 0.1.4
  */
 /*
 Plugin Name: ARCW Popover Addon
 Plugin URI: http://labs.alek.be/
 Description: Shows a popover on Calendar Archives Widget day/month hover.
-Version: 0.1.3
+Version: 0.1.4
 Author: Aleksei Polechin (alek´)
 Author URI: http://alek.be
 License: GPLv3
@@ -32,7 +32,7 @@ License: GPLv3
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  ****/
 
-define( 'ARCWPV', '0.1.3' ); // current version of the plugin
+define( 'ARCWPV', '0.1.4' ); // current version of the plugin
 define( 'ARCWP_DEBUG', false ); // enable or disable debug (for dev instead of echo or print_r use debug() function)
 define( 'ARCWP_DIR', plugins_url( '/', __FILE__ ) );
 
@@ -66,27 +66,17 @@ function arcwp_get_archives_list() {
 	parse_str( parse_url( $url, PHP_URL_QUERY ), $url );
 	list( $year, $month, $day ) = explode( '-', $_POST['date'] );
 
-	$cat       = '';
-	$post_type = 'post';
-
-	if ( isset( $url['arcwfilter'] ) ) {
-		$re  = "/(\\w+)\\(([^)]+)\\)/";
-		$str = $url['arcwfilter'];
-		preg_match_all( $re, $str, $matches );
-
-		foreach ( $matches[1] as $key => $value ) {
-			if ( $value == 'post' ) {
-				$post_type = explode( ',', $matches[2][ $key ] );
-			}
-			if ( $value == 'cat' ) {
-				$cat = $matches[2][ $key ];
-			}
-		}
+	$params = array();
+	if ( isset( $url['arcf'] ) ) {
+		$params = _arcw_get_filter_params( $url['arcf'] );
 	}
+
+	$cat       = $params['cats'] ? $params['cats'] : '';
+	$post_type = $params['posts'] ? $params['posts'] : 'post';
 
 	$args = array(
 		'posts_per_page'   => 0,
-		'cat'              => $cat,
+//		'cat'              => $cat,
 		'orderby'          => 'date',
 		'order'            => 'DESC',
 		'post_type'        => $post_type,
@@ -107,14 +97,14 @@ function arcwp_get_archives_list() {
 			array(
 				'taxonomy' => 'category',
 				'field'    => 'term_id',
-				'terms'    => explode( ',', $cat ),
+				'terms'    => $cat,
 				'operator' => 'IN',
 			),
 		);
 	}
 
 	$posts_array = get_posts( $args );
-	$max = 5;
+	$max         = 5;
 
 	$posts = array();
 
@@ -126,14 +116,15 @@ function arcwp_get_archives_list() {
 		);
 	}
 
-	$json  = array(
+	$json = array(
 		'posts'      => $posts,
 		'post_count' => count( $posts_array ),
 		'max'        => $max,
-		'more'       => count( $posts_array ) > $max ? __('More') : false
+		'more'       => count( $posts_array ) > $max ? __( 'More' ) : false,
+		'request'    => array( $cat, $post_type )
 	);
 
-	echo json_encode($json);
+	echo json_encode( $json );
 
 	die();
 }

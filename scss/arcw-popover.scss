@@ -1,32 +1,11 @@
 @import "bootstrap/mixins";
 
 .calendar-archives {
-	#arcwp-arrow {
-		position: absolute;
-		width: 100%;
-		height: 8px;
-		margin-top: -8px;
-		text-align: center;
-		overflow: hidden;
-		&:before {
-			position: relative;
-			display: inline-block;
-			content: '';
-			width: 10px;
-			height: 10px;
-			border-bottom: 0;
-			border-left: 0;
-			@include rotate(-45deg);
-			background-color: rgba(#000, .8);
-		}
-	}
-}
-
-.calendar-archives {
 
 	&.hover {
 		.arcw-popover {
 			opacity: 1;
+			overflow: visible;
 			height: auto;
 			transition: opacity .4s;
 		}
@@ -34,6 +13,7 @@
 
 	.arcw-popover {
 		position: absolute;
+		overflow: hidden;
 		opacity: 0;
 		height: 0;
 		width: 150px;
@@ -50,6 +30,7 @@
 
 		a {
 			color: white;
+			font-weight: normal;
 		}
 
 		ul, li {
